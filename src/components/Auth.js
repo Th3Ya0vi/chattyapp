@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { auth } from '../firebase';
-import { signInAnonymously } from "firebase/auth";
+import { onAuthStateChanged, signInAnonymously } from "firebase/auth";
 
-function Auth() {
-  const [user, setUser] = useState(null);
+function Auth({ user, setUser }) {
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         setUser(user);
       } else {
@@ -15,28 +14,22 @@ function Auth() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [setUser]);
 
-  const signInAnonymously = () => {
+  const handleSignInAnonymously = () => {
     signInAnonymously(auth)
       .catch((error) => {
         console.error("Error signing in anonymously: ", error);
       });
   };
 
-  const signOut = () => {
-    auth.signOut()
-      .catch((error) => {
-        console.error("Error signing out: ", error);
-      });
-  };
-
   return (
-    <div>
-      {user ? (
-        <button onClick={signOut}>Sign Out</button>
+    <div className="auth-container">
+    {!user && <h1>Join the fun</h1>}
+    {user ? (
+       <div className="sign-out-button"onClick={() => { auth.signOut(); setUser(null); }}>Sign Out</div>
       ) : (
-        <button onClick={signInAnonymously}>Sign In Anonymously</button>
+        <button onClick={handleSignInAnonymously}>Sign In Anonymously</button>
       )}
     </div>
   );

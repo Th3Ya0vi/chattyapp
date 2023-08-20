@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ChatRoom from './components/ChatRoom';
-import DirectMessage from './components/DirectMessage';
+import Auth from './components/Auth';
 
 function App() {
+  const [user, setUser] = useState(null);
+
   return (
     <div>
-      <ChatRoom />
-      <DirectMessage />
+      <Auth user={user} setUser={setUser} />
+      {user && <ChatRoom user={user} />}
     </div>
   );
 }

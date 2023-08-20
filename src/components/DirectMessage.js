@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from 'firebase/firestore';
+import './styles.css';
 
 function DirectMessage() {
   const [messages, setMessages] = useState([]);
