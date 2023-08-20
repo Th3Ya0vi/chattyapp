@@ -3,6 +3,7 @@ import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase';
+import { FaUser } from 'react-icons/fa';
 import './styles.css';
 
 function ChatRoom({ user }) {
@@ -72,6 +73,7 @@ function ChatRoom({ user }) {
             <h1>Chat Room</h1>
         {messages.map(message => (
           <p key={message.id} className={`message ${message.uid === user.uid ? 'outgoing' : 'incoming'}`}>
+            <FaUser style={{ color: `#${message.uid.substring(0, 6)}` }} />
             {message.text}
             {message.imageUrl && <img src={message.imageUrl} alt="message" onClick={() => handleImageClick(message.imageUrl)} />}
           </p>
@@ -80,6 +82,7 @@ function ChatRoom({ user }) {
           <input
             value={newMessage}
             onChange={e => setNewMessage(e.target.value)}
+            onKeyPress={e => e.key === 'Enter' ? sendMessage() : null}
             placeholder="Type your message here..."
           />
           <button onClick={sendMessage}>Send</button>
