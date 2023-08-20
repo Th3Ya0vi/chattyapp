@@ -134,3 +134,18 @@
   color: white;
   cursor: pointer;
 }
+
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 20px;
+  }
+
+  .chatBox {
+    padding: 10px;
+  }
+
+  .sign-out-button {
+    top: 20px;
+    right: 20px;
+  }
+}
